@@ -37,6 +37,6 @@ config :api_server, ApiServer.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "api_server_dev",
-  hostname: "localhost",
+  database: "postgres",
+  hostname: "citus_master",
   pool_size: 10
