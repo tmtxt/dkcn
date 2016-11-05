@@ -13,5 +13,7 @@ services:
     image: 'citusdata/citus:5.2.1'
     ports: ['5434:5432']
 
-  api-server:
-    image: 'elixir:1.3.4'
+  api_server:
+    build: './api_server'
+    ports: ['4000:4000']
+    volumes: ['./api_server:/usr/src/app']
