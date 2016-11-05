@@ -38,5 +38,5 @@ config :api_server, ApiServer.Repo,
   username: "postgres",
   password: "postgres",
   database: "postgres",
-  hostname: "citus_master",
+  hostname: "postgres",
   pool_size: 10

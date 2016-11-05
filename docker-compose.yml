@@ -1,17 +1,20 @@
 version: '2'
 services:
-  citus_master:
-    image: 'citusdata/citus:5.2.1'
-    ports: ['5432:5432']
-    volumes: ['./citus:/etc/citus']
+  # citus_master:
+  #   image: 'citusdata/citus:5.2.1'
+  #   ports: ['5432:5432']
+  #   volumes: ['./citus:/etc/citus']
 
-  citus_worker_1:
-    image: 'citusdata/citus:5.2.1'
-    ports: ['5433:5432']
+  # citus_worker_1:
+  #   image: 'citusdata/citus:5.2.1'
+  #   ports: ['5433:5432']
 
-  citus_worker_2:
-    image: 'citusdata/citus:5.2.1'
-    ports: ['5434:5432']
+  # citus_worker_2:
+  #   image: 'citusdata/citus:5.2.1'
+  #   ports: ['5434:5432']
+
+  postgres:
+    image: postgres:9.6.1
 
   api_server:
     build: './api_server'
