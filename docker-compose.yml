@@ -13,9 +13,18 @@ services:
   #   image: 'citusdata/citus:5.2.1'
   #   ports: ['5434:5432']
 
-  postgres:
-    image: postgres:9.6.1
 
+  # database
+  postgres:
+    build: ./postgres
+
+
+  # migration services
+  schemup_auth:
+    image: tmtxt/schemup:v0.0.2
+
+
+  # app services
   api_server:
     build: './api_server'
     ports: ['4000:4000']
