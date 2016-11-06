@@ -1,4 +1,4 @@
-defmodule ApiServer.Repo do
+defmodule ApiServer.MainRepo do
   use Ecto.Repo, otp_app: :api_server
 end
 

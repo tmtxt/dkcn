@@ -9,7 +9,7 @@ defmodule ApiServer do
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository
-      supervisor(ApiServer.Repo, []),
+      supervisor(ApiServer.MainRepo, []),
       supervisor(ApiServer.AuthRepo, []),
       # Start the endpoint when the application starts
       supervisor(ApiServer.Endpoint, []),

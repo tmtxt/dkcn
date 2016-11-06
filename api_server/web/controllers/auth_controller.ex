@@ -1,12 +1,33 @@
 defmodule ApiServer.AuthController do
   use ApiServer.Web, :controller
-  import ApiServer.AuthRepo, only: [insert: 1]
-  alias ApiServer.Models.User, as: User
+  import ApiServer.Util, only: [to_struct: 2]
+
+  alias ApiServer.MainRepo, as: MainRepo
+  alias ApiServer.Models.Main.User, as: MainUser
+
+  alias ApiServer.AuthRepo, as: AuthRepo
+  alias ApiServer.Models.Auth.User, as: AuthUser
 
   def get_user(conn, _params) do
-    user = %User{username: "truong2", email: "test2"}
-    {:ok, user} = insert(user)
-    IO.inspect user
+    # user = %User{username: "truong3", email: "test3"}
+    # {:ok, user} = insert(user)
+    # IO.inspect user
     json conn, %{id: "hello"}
   end
+
+  def create_user(conn, params) do
+    # insert user in auth db
+    auth_user = to_struct %AuthUser{}, params
+    auth_user = AuthRepo.insert(auth_user)
+
+    # insert user in main db
+    %{ username: username } = auth_user
+    main_user = %MainUser{
+      name: username
+    }
+    main_user = MainRepo.insert(main_user)
+
+    json conn, %{hello: "abc"}
+  end
+
 end

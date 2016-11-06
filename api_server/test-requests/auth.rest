@@ -1,2 +1,12 @@
-# Get fields to cache
+# Create new auth user
+POST http://127.0.0.1:4000/api/auth-users
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "hello",
+  "email": "test"
+}
+
+#
 GET http://127.0.0.1:4000/api/user

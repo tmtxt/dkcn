@@ -22,6 +22,11 @@ services:
 
 
   # migration services
+  schemup_main:
+    image: tmtxt/schemup:v0.0.2
+    volumes:
+      - ./schema/main:/schemup
+
   schemup_auth:
     image: tmtxt/schemup:v0.0.2
     volumes:

@@ -33,10 +33,10 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
-config :api_server, ApiServer.Repo,
+config :api_server, ApiServer.MainRepo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  database: "postgres",
+  username: "app_main",
+  database: "app_main",
   hostname: "postgres",
   pool_size: 10
 

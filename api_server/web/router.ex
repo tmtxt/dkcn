@@ -23,6 +23,7 @@ defmodule ApiServer.Router do
   scope "/api", ApiServer do
     pipe_through :api
 
-    get "/user", AuthController, :get_user
+    get "/auth-users", AuthController, :get_user
+    post "/auth-users", AuthController, :create_user
   end
 end
