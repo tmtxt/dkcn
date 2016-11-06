@@ -16,18 +16,25 @@ defmodule ApiServer.AuthController do
   end
 
   def create_user(conn, params) do
-    # insert user in auth db
-    auth_user = to_struct %AuthUser{}, params
-    auth_user = AuthRepo.insert(auth_user)
+    try do
+      # insert user in auth db
+      auth_user = to_struct %AuthUser{}, params
+      {:ok, auth_user} = AuthRepo.insert(auth_user)
 
-    # insert user in main db
-    %{ username: username } = auth_user
-    main_user = %MainUser{
-      name: username
-    }
-    main_user = MainRepo.insert(main_user)
+      # insert user in main db
+      %{ username: username } = auth_user
+      main_user = %MainUser{
+        name: username
+      }
+      {:ok, main_user} = MainRepo.insert(main_user)
 
-    json conn, %{hello: "abc"}
+      json conn, %{hello: "abc"}
+    rescue
+      err in Ecto.ConstraintError -> conn
+      |> put_status(400)
+      |> json %{message: "Constraint error"}
+    end
+
   end
 
 end
