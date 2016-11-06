@@ -1,0 +1,6 @@
+{
+  "database": "app_auth",
+  "user": "app_auth",
+  "host": "postgres",
+  "port": 5432
+}

@@ -1,0 +1,14 @@
+---
+table: user
+from: null
+to: user_1
+sql: |
+  CREATE TABLE "user" (
+        "id" SERIAL NOT NULL PRIMARY KEY,
+        "username" VARCHAR(100),
+        "email" VARCHAR(1000),
+        "password" VARCHAR(1000),
+        "created_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+        UNIQUE("username"),
+        UNIQUE("email")
+        );
