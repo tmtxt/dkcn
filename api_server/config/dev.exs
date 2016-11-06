@@ -36,7 +36,13 @@ config :phoenix, :stacktrace_depth, 20
 config :api_server, ApiServer.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "postgres",
   database: "postgres",
+  hostname: "postgres",
+  pool_size: 10
+
+config :api_server, ApiServer.AuthRepo,
+  adapter: Ecto.Adapters.Postgres,
+  username: "app_auth",
+  database: "app_auth",
   hostname: "postgres",
   pool_size: 10

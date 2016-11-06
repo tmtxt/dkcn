@@ -10,6 +10,7 @@ defmodule ApiServer do
     children = [
       # Start the Ecto repository
       supervisor(ApiServer.Repo, []),
+      supervisor(ApiServer.AuthRepo, []),
       # Start the endpoint when the application starts
       supervisor(ApiServer.Endpoint, []),
       # Start your own worker by calling: ApiServer.Worker.start_link(arg1, arg2, arg3)
