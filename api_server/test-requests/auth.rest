@@ -3,10 +3,11 @@ POST http://127.0.0.1:4000/api/auth-users
 Content-Type: application/json
 
 {
-  "username": "test7",
+  "username": "test11",
   "password": "hello",
-  "email": "test7"
+  "email": "test11",
+  "helloAbc": "def"
 }
 
-#
-GET http://127.0.0.1:4000/api/user
+# get_user
+GET http://127.0.0.1:4000/api/auth-users

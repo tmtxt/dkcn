@@ -9,6 +9,7 @@ defmodule ApiServer.Router do
       parsers: [:urlencoded, :multipart, :json],
       pass: ["*/*"],
       json_decoder: Poison
+    plug ApiServer.ProperCase
   end
 
   # Other scopes may use custom stacks.

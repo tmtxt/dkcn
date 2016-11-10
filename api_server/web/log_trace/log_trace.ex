@@ -10,7 +10,7 @@ defmodule ApiServer.LogTrace do
     conn = Conn.assign conn, :log_trace, log_trace
 
     Conn.register_before_send(conn, fn conn ->
-      IO.inspect conn.assigns
+      # IO.inspect conn.assigns
       conn
     end)
   end
