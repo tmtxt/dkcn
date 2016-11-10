@@ -32,7 +32,7 @@ defmodule ApiServer.AuthController do
     rescue
       err in Ecto.ConstraintError -> conn
       |> put_status(400)
-      |> json %{message: "Constraint error"}
+      |> json(%{message: "Constraint error"})
     end
 
   end
