@@ -16,6 +16,7 @@ defmodule ApiServer.AuthController do
   end
 
   def create_user(conn, params) do
+    raise ArgumentError, "tesat"
     try do
       # insert user in auth db
       # auth_user = to_struct %AuthUser{}, params
