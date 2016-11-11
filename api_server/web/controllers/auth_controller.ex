@@ -19,25 +19,25 @@ defmodule ApiServer.AuthController do
   Create new user in the system, both in auth db and main db
   """
   def create_user(conn, params) do
-    IO.inspect(to_snake_case(params))
-    # IO.inspect(params)
-
     # insert user in auth db
-    # auth_user = to_struct %AuthUser{}, params
-    # {:ok, auth_user} = AuthRepo.insert(auth_user)
+    auth_user = to_struct %AuthUser{}, params
+    {:ok, auth_user} = AuthRepo.insert(auth_user)
 
-    # # insert user in main db
-    # %{ username: username } = auth_user
-    # main_user = %MainUser{
-    #   name: username
-    # }
-    # {:ok, main_user} = MainRepo.insert(main_user)
+    # insert user in main db
+    %{ username: username } = auth_user
+    main_user = %MainUser{
+      name: username
+    }
+    {:ok, main_user} = MainRepo.insert(main_user)
 
-    # # response
-    # json conn, %{
-    #   auth_user: auth_user,
-    #   main_user: main_user
-    # }
+    # response
+    response = to_camel_case(
+      %{
+        auth_user: auth_user,
+        main_user: main_user
+      }
+    )
+    json conn, reponse
   end
 
 end
