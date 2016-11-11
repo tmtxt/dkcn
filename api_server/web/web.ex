@@ -30,12 +30,10 @@ defmodule ApiServer.Web do
     quote do
       use Phoenix.Controller
 
-      alias ApiServer.Repo
+      alias Plug.Conn
       import Ecto
       import Ecto.Query
-
-      import ApiServer.Router.Helpers
-      import ApiServer.Gettext
+      import ProperCase
     end
   end
 
