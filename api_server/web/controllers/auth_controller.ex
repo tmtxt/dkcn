@@ -11,15 +11,37 @@ defmodule ApiServer.AuthController do
 
 
   @doc """
-  Create new user in the system, both in auth db and main db.
-  On success, response
-  {
-    auth_user: <object> the inserted auth_user,
-    main_user: <object> the inserted main_user
-  }
-  On error, response code 400
+  Response: see create_both_user function
   """
   def create_user(conn, params) do
+    params = Map.put params, "user_role", "user"
+    create_both_user conn, params
+
+  end
+
+
+  @doc """
+  Use for initialize
+  This function should be comment out in production. Only enable it in local and point to
+  the db you want to create.
+  Response: see create_both_user function
+  """
+  def create_admin(conn, params) do
+    params = Map.put params, "user_role", "admin"
+    IO.inspect params
+    create_both_user conn, params
+  end
+
+
+  # create both user in auth db and main db
+  # Create new user in the system, both in auth db and main db.
+  # On success, response
+  # {
+  # auth_user: <object> the inserted auth_user,
+  # main_user: <object> the inserted main_user
+  # }
+  # On error, response code 400
+  defp create_both_user(conn, params) do
     try do
       # insert user in auth db
       auth_user = AuthUser.changeset(%AuthUser{}, params)

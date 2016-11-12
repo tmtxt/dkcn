@@ -18,3 +18,14 @@ to: user_2
 sql: |
   ALTER TABLE "user" ADD CONSTRAINT user_username_unique UNIQUE ("username");
   ALTER TABLE "user" ADD CONSTRAINT user_email_unique UNIQUE ("email");
+
+---
+table: user
+from: user_2
+to: user_3
+sql: |
+  CREATE TYPE USER_ROLE_ENUM AS ENUM (
+        'user',
+        'admin'
+        );
+  ALTER TABLE "user" ADD COLUMN "user_role" USER_ROLE_ENUM NOT NULL DEFAULT 'user';

@@ -3,10 +3,21 @@ POST http://127.0.0.1:4000/api/auth-users
 Content-Type: application/json
 
 {
-  "username": "test3",
-  "email": "test3",
+  "user_role": "admin",
+  "username": "test13",
+  "email": "test13",
   "password": "hello",
   "helloAbc": "def"
+}
+
+# Create admin user
+POST http://127.0.0.1:4000/api/auth-users/admin
+Content-Type: application/json
+
+{
+  "username": "test12",
+  "email": "test12",
+  "password": "hello"
 }
 
 # get_user
