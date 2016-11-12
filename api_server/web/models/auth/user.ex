@@ -17,12 +17,7 @@ defmodule ApiServer.Models.Auth.User do
     |> validate_required([:username, :email, :password])
     |> unique_constraint(:username, name: "user_username_unique")
     |> unique_constraint(:email, name: "user_email_unique")
-    |> update_change(:password, &hash_password/1)
-  end
-
-
-  defp hash_password(password) do
-    ExBcrypt.hash(password)
+    |> update_change(:password, &ExBcrypt.hash/1)
   end
 
 end
