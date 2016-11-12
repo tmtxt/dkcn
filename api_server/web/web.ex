@@ -31,9 +31,11 @@ defmodule ApiServer.Web do
       use Phoenix.Controller
 
       alias Plug.Conn
+      alias ApiServer.MainRepo
+      alias ApiServer.AuthRepo
+
       import Ecto
       import Ecto.Query
-      import ProperCase
     end
   end
 

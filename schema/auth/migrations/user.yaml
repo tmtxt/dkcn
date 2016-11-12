@@ -8,7 +8,13 @@ sql: |
         "username" VARCHAR(100),
         "email" VARCHAR(1000),
         "password" VARCHAR(1000),
-        "created_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
-        UNIQUE("username"),
-        UNIQUE("email")
+        "created_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT now()
         );
+
+---
+table: user
+from: user_1
+to: user_2
+sql: |
+  ALTER TABLE "user" ADD CONSTRAINT user_username_unique UNIQUE ("username");
+  ALTER TABLE "user" ADD CONSTRAINT user_email_unique UNIQUE ("email");

@@ -7,6 +7,26 @@ sql: |
         "id" SERIAL NOT NULL PRIMARY KEY,
         "name" VARCHAR(1000),
         "auth_user_id" INTEGER,
-        "created_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
-        UNIQUE("name")
+        "created_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT now()
         );
+
+---
+table: user
+from: user_1
+to: user_2
+sql: |
+  ALTER TABLE "user" ADD CONSTRAINT user_name_unique UNIQUE ("name");
+
+---
+table: user
+from: user_2
+to: user_3
+sql: |
+  ALTER TABLE "user" DROP COLUMN "display_name";
+
+---
+table: user
+from: user_3
+to: user_4
+sql: |
+  ALTER TABLE "user" DROP CONSTRAINT user_name_unique;

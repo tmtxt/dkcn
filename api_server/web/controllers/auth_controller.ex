@@ -1,12 +1,8 @@
 defmodule ApiServer.AuthController do
   use ApiServer.Web, :controller
-  import ApiServer.Util, only: [to_struct: 2]
-
-  alias ApiServer.MainRepo, as: MainRepo
   alias ApiServer.Models.Main.User, as: MainUser
-
-  alias ApiServer.AuthRepo, as: AuthRepo
   alias ApiServer.Models.Auth.User, as: AuthUser
+  import ApiServer.EctoUtil, only: [errors_to_map: 1]
 
 
   def get_user(conn, _params) do
@@ -15,28 +11,44 @@ defmodule ApiServer.AuthController do
 
 
   @doc """
-  Create new user in the system, both in auth db and main db
+  Create new user in the system, both in auth db and main db.
+  On success, response
+  {
+    auth_user: <object> the inserted auth_user,
+    main_user: <object> the inserted main_user
+  }
+  On error, response code 400
   """
   def create_user(conn, params) do
-    # insert user in auth db
-    auth_user = to_struct %AuthUser{}, params
-    {:ok, auth_user} = AuthRepo.insert(auth_user)
+    try do
+      # insert user in auth db
+      auth_user = AuthUser.changeset(%AuthUser{}, params)
+      auth_user = case AuthRepo.insert(auth_user) do
+                    {:ok, user} -> user
+                    {:error, changeset} -> throw changeset
+                  end
 
-    # insert user in main db
-    %{ username: username } = auth_user
-    main_user = %MainUser{
-      name: username
-    }
-    {:ok, main_user} = MainRepo.insert(main_user)
+      # insert user in main db
+      %{ username: username } = auth_user
+      main_user = MainUser.changeset(
+        %MainUser{}, %{name: username}
+      )
+      main_user = case MainRepo.insert(main_user) do
+                    {:ok, user} -> user
+                    {:error, changeset} -> throw changeset
+                  end
 
-    # response
-    result = to_camel_case(
-      %{
-        auth_user: auth_user,
-        main_user: main_user
-      }
-    )
-    json(conn, result)
+      json(
+        conn, %{
+          auth_user: auth_user,
+          main_user: main_user
+        }
+      )
+    catch
+      changeset = %Ecto.Changeset{} -> conn
+      |> put_status(400)
+      |> json(errors_to_map(changeset))
+    end
   end
 
 end

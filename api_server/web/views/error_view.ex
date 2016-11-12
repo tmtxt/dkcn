@@ -2,6 +2,7 @@ defmodule ApiServer.ErrorView do
   use ApiServer.Web, :view
 
   def render(_error, assigns) do
+    IO.inspect assigns
     assigns.reason.message
   end
 

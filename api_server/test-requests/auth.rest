@@ -3,9 +3,9 @@ POST http://127.0.0.1:4000/api/auth-users
 Content-Type: application/json
 
 {
-  "username": "test11",
+  "username": "test16",
+  "email": "test15",
   "password": "hello",
-  "email": "test11",
   "helloAbc": "def"
 }
 

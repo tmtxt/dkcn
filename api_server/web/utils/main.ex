@@ -13,13 +13,4 @@ defmodule ApiServer.Util do
       end
     end
   end
-
-  @doc """
-  Response a map to json, convert key to camelCase
-  """
-  def json(conn, map) do
-    IO.puts "--------------------------------------------------------------------------------"
-    map = ProperCase.to_camel_case map
-    Phoenix.Controller.json conn, map
-  end
 end
