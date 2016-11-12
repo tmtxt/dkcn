@@ -1,7 +1,7 @@
 defmodule ApiServer.Models.Auth.User do
   use ApiServer.Web, :model
 
-  @derive {Poison.Encoder, except: [:__meta__]}
+  @derive {Poison.Encoder, except: [:__meta__, :password]}
   @primary_key {:id, :id, [autogenerate: true]}
 
   schema "user" do
@@ -17,6 +17,12 @@ defmodule ApiServer.Models.Auth.User do
     |> validate_required([:username, :email, :password])
     |> unique_constraint(:username, name: "user_username_unique")
     |> unique_constraint(:email, name: "user_email_unique")
+    |> update_change(:password, &hash_password/1)
+  end
+
+
+  defp hash_password(password) do
+    ExBcrypt.hash(password)
   end
 
 end

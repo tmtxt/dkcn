@@ -19,7 +19,7 @@ defmodule ApiServer.Mixfile do
   def application do
     [mod: {ApiServer, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :proper_case]]
+                    :phoenix_ecto, :postgrex, :proper_case, :ex_bcrypt]]
   end
 
   # Specifies which paths to compile per environment.
@@ -39,6 +39,7 @@ defmodule ApiServer.Mixfile do
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:proper_case, "~> 0.1.3"},
+     {:ex_bcrypt, "~> 0.0.1"},
      {:uuid, "~> 1.1"}]
   end
 
