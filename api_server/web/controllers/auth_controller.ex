@@ -11,7 +11,6 @@ defmodule ApiServer.AuthController do
 
   def get_user(conn, _params) do
     json conn, %{id_hello: "hello"}
-    # IO.inspect(Poison.encode_to_iodata!(%{id_hello: "hello"}))
   end
 
 
@@ -31,13 +30,13 @@ defmodule ApiServer.AuthController do
     {:ok, main_user} = MainRepo.insert(main_user)
 
     # response
-    response = to_camel_case(
+    result = to_camel_case(
       %{
         auth_user: auth_user,
         main_user: main_user
       }
     )
-    json conn, reponse
+    json(conn, result)
   end
 
 end
