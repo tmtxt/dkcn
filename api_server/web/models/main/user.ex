@@ -13,7 +13,8 @@ defmodule ApiServer.Models.Main.User do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :auth_user_id])
-    |> validate_required([:name])
+    |> validate_required([:name, :auth_user_id])
+    |> unique_constraint(:auth_user_id, name: "user_auth_user_id_unique")
   end
 
 end

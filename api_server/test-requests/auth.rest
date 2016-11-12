@@ -3,8 +3,8 @@ POST http://127.0.0.1:4000/api/auth-users
 Content-Type: application/json
 
 {
-  "username": "test16",
-  "email": "test15",
+  "username": "test1",
+  "email": "test1",
   "password": "hello",
   "helloAbc": "def"
 }

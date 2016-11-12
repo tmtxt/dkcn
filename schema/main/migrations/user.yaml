@@ -30,3 +30,10 @@ from: user_3
 to: user_4
 sql: |
   ALTER TABLE "user" DROP CONSTRAINT user_name_unique;
+
+---
+table: user
+from: user_4
+to: user_5
+sql: |
+  ALTER TABLE "user" ADD CONSTRAINT user_auth_user_id_unique UNIQUE ("auth_user_id");

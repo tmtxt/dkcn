@@ -29,9 +29,12 @@ defmodule ApiServer.AuthController do
                   end
 
       # insert user in main db
-      %{ username: username } = auth_user
+      %{ username: username, id: id } = auth_user
       main_user = MainUser.changeset(
-        %MainUser{}, %{name: username}
+        %MainUser{}, %{
+          name: username,
+          auth_user_id: id
+        }
       )
       main_user = case MainRepo.insert(main_user) do
                     {:ok, user} -> user
