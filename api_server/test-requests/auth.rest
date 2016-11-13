@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
   "user_role": "admin",
-  "username": "test13",
-  "email": "test13",
+  "username": "test14",
+  "email": "test14",
   "password": "hello",
   "helloAbc": "def"
 }
@@ -15,9 +15,9 @@ POST http://127.0.0.1:4000/api/auth-users/admin
 Content-Type: application/json
 
 {
-  "username": "test12",
-  "email": "test12",
-  "password": "hello"
+  "username": "admin",
+  "email": "admin",
+  "password": "admin"
 }
 
 # get_user
