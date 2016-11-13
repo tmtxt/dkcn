@@ -24,6 +24,14 @@ defmodule ApiServer.Services.Auth do
     expired_at: number
   }
 
+  @typedoc """
+  The return data for ensure user functions
+  """
+  @type ensure_user_data :: %{
+    username: String.t,
+    user_role: String.t
+  }
+
 
   @doc """
   Create auth user and main user
@@ -108,6 +116,10 @@ defmodule ApiServer.Services.Auth do
   end
 
 
+  @doc """
+  Ensure this user is a logged in user
+  """
+  @spec ensure_logged_in_user(context) :: ensure_user_data
   def ensure_logged_in_user(conn) do
     token = Conn.get_req_header(conn, "dkcn-auth-token")
     token_key = build_token_key token
@@ -133,6 +145,21 @@ defmodule ApiServer.Services.Auth do
       username: username,
       user_role: user_role
     }
+  end
+
+
+  @doc """
+  Ensure this user is an admin user
+  """
+  @spec ensure_logged_in_user(context) :: ensure_user_data
+  def ensure_admin_user(conn) do
+    user_data = ensure_logged_in_user(conn)
+    %{user_role: user_role} = user_data
+    if user_role !== AuthUser.user_role_admin do
+      raise AuthErrors.UnauthorizedError
+    end
+
+    user_data
   end
 
 

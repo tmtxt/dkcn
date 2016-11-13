@@ -21,4 +21,8 @@ defmodule ApiServer.Models.Auth.User do
     |> update_change(:password, &ExBcrypt.hash/1)
   end
 
+
+  def user_role_user(), do: "user"
+  def user_role_admin(), do: "admin"
+
 end

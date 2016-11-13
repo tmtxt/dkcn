@@ -15,7 +15,7 @@ defmodule ApiServer.AuthController do
   Response: see create_both_user function
   """
   def create_user(conn, params) do
-    AuthService.ensure_logged_in_user(conn)
+    AuthService.ensure_admin_user(conn)
     params = Map.put params, "user_role", "user"
     try do
       res = create_both_user conn, params
