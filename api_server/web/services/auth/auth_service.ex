@@ -4,6 +4,7 @@ defmodule ApiServer.Services.Auth do
   alias ApiServer.AuthRepo
   alias ApiServer.Models.Main.User, as: MainUser
   alias ApiServer.Models.Auth.User, as: AuthUser
+  import Ecto.Query
 
   @typedoc """
   Context data type for logging
@@ -43,6 +44,21 @@ defmodule ApiServer.Services.Auth do
       auth_user: auth_user,
       main_user: main_user
     }
+  end
+
+
+  def login(conn, username, password) do
+    # get user
+    user = AuthUser |> AuthRepo.get_by(username: username)
+    if !user do
+      raise ApiServer.Services.Auth.Errors.LoginError
+    end
+
+    # compare password
+    match = ExBcrypt.match(password, user.password)
+    if !match do
+      raise ApiServer.Services.Auth.Errors.LoginError
+    end
   end
 
 end

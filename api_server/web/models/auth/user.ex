@@ -20,4 +20,5 @@ defmodule ApiServer.Models.Auth.User do
     |> unique_constraint(:email, name: "user_email_unique")
     |> update_change(:password, &ExBcrypt.hash/1)
   end
+
 end

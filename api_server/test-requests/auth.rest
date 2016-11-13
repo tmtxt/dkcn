@@ -22,3 +22,12 @@ Content-Type: application/json
 
 # get_user
 GET http://127.0.0.1:4000/api/auth-users
+
+# login
+POST http://127.0.0.1:4000/api/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}

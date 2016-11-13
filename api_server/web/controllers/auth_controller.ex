@@ -1,7 +1,9 @@
 defmodule ApiServer.AuthController do
   use ApiServer.Web, :controller
+  alias ApiServer.Models.Auth.User, as: AuthUser
   import ApiServer.EctoUtil, only: [errors_to_map: 1]
   import ApiServer.Services.Auth, only: [create_both_user: 2]
+  alias ApiServer.Services.Auth, as: AuthService
 
 
   def get_user(conn, _params) do
@@ -26,7 +28,8 @@ defmodule ApiServer.AuthController do
 
 
   def login(conn, params) do
-
+    %{"username" => username, "password" => password} = params
+    json(conn, AuthService.login(conn, username, password))
   end
 
 

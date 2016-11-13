@@ -18,5 +18,6 @@ defmodule ApiServer.Router do
     get "/auth-users", AuthController, :get_user
     post "/auth-users", AuthController, :create_user
     post "/auth-users/admin", AuthController, :create_admin
+    post "/login", AuthController, :login
   end
 end
