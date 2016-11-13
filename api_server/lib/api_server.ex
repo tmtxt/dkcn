@@ -16,6 +16,7 @@ defmodule ApiServer do
       # Start your own worker by calling: ApiServer.Worker.start_link(arg1, arg2, arg3)
       # worker(ApiServer.Worker, [arg1, arg2, arg3]),
     ]
+    children = children ++ ApiServer.RedisPool.create_redis_pools(5)
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options

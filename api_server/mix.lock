@@ -22,4 +22,5 @@
   "postgrex": {:hex, :postgrex, "0.12.1", "2f8b46cb3a44dcd42f42938abedbfffe7e103ba4ce810ccbeee8dcf27ca0fb06", [:mix], [{:connection, "~> 1.0", [hex: :connection, optional: false]}, {:db_connection, "~> 1.0-rc.4", [hex: :db_connection, optional: false]}, {:decimal, "~> 1.0", [hex: :decimal, optional: false]}]},
   "proper_case": {:hex, :proper_case, "0.1.3", "afadc8dd31917cfcb1a817e0ebff03ae0f3c3fc4a473c4a7711cd74f5b33fa7d", [:mix], [{:ex_doc, "~> 0.14.3", [hex: :ex_doc, optional: false]}]},
   "ranch": {:hex, :ranch, "1.2.1", "a6fb992c10f2187b46ffd17ce398ddf8a54f691b81768f9ef5f461ea7e28c762", [:make], []},
+  "redix": {:hex, :redix, "0.4.0", "c8cfad755252e5441c4119437ba3a8989518af7aa90dbd6f4ff7207b72e4a967", [:mix], [{:connection, "~> 1.0.0", [hex: :connection, optional: false]}]},
   "uuid": {:hex, :uuid, "1.1.5", "96cb36d86ee82f912efea4d50464a5df606bf3f1163d6bdbb302d98474969369", [:mix], []}}

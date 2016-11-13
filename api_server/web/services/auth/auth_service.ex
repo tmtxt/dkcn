@@ -2,6 +2,7 @@ defmodule ApiServer.Services.Auth do
 
   alias ApiServer.MainRepo
   alias ApiServer.AuthRepo
+  alias ApiServer.RedisPool
   alias ApiServer.Models.Main.User, as: MainUser
   alias ApiServer.Models.Auth.User, as: AuthUser
   import Ecto.Query
@@ -10,6 +11,16 @@ defmodule ApiServer.Services.Auth do
   Context data type for logging
   """
   @type context :: %{log_trace: map}
+
+  @typedoc """
+  The return data after login
+  """
+  @type login_data :: %{
+    username: String.t,
+    user_role: String.t,
+    auth_token: String.t,
+    expired_at: number
+  }
 
 
   @doc """
@@ -47,6 +58,10 @@ defmodule ApiServer.Services.Auth do
   end
 
 
+  @doc """
+  Login with username and password, generate the auth token and write to redis
+  """
+  @spec login(context, String.t, String.t) :: login_data
   def login(conn, username, password) do
     # get user
     user = AuthUser |> AuthRepo.get_by(username: username)
@@ -59,6 +74,34 @@ defmodule ApiServer.Services.Auth do
     if !match do
       raise ApiServer.Services.Auth.Errors.LoginError
     end
+
+    # generate auth token (username + uuid)
+    %AuthUser{
+      user_role: user_role, username: username
+    } = user
+    token = "#{user.username}-#{UUID.uuid4()}"
+
+    # write to redis, set expire time 1 week later
+    second_for_one_week = 604800
+    now = DateTime.to_unix(DateTime.utc_now())
+    expired_at = now + second_for_one_week
+    redis_key = "auth:#{user.username}"
+
+    # write to redis
+    res = case RedisPool.pipeline([
+                ~w(HMSET #{redis_key} username #{username} userrole #{user_role} token #{token}),
+                ~w(EXPIREAT #{redis_key} #{expired_at}),
+                ~w(HGETALL #{redis_key})
+              ]) do
+            {:ok, res} -> res
+            {:error, error} -> raise ApiServer.Services.Auth.Errors.LoginError
+          end
+    %{
+      username: username,
+      user_role: user_role,
+      auth_token: token,
+      expired_at: expired_at * 1000
+    }
   end
 
 end
