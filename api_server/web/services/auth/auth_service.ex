@@ -1,8 +1,10 @@
 defmodule ApiServer.Services.Auth do
 
+  alias Plug.Conn
   alias ApiServer.MainRepo
   alias ApiServer.AuthRepo
   alias ApiServer.RedisPool
+  alias ApiServer.Services.Auth.Errors, as: AuthErrors
   alias ApiServer.Models.Main.User, as: MainUser
   alias ApiServer.Models.Auth.User, as: AuthUser
   import Ecto.Query
@@ -66,36 +68,37 @@ defmodule ApiServer.Services.Auth do
     # get user
     user = AuthUser |> AuthRepo.get_by(username: username)
     if !user do
-      raise ApiServer.Services.Auth.Errors.LoginError
+      raise AuthErrors.LoginError
     end
 
     # compare password
     match = ExBcrypt.match(password, user.password)
     if !match do
-      raise ApiServer.Services.Auth.Errors.LoginError
+      raise AuthErrors.LoginError
     end
 
     # generate auth token (username + uuid)
     %AuthUser{
       user_role: user_role, username: username
     } = user
-    token = "#{user.username}-#{UUID.uuid4()}"
+    token = UUID.uuid4()
 
     # write to redis, set expire time 1 week later
     second_for_one_week = 604800
     now = DateTime.to_unix(DateTime.utc_now())
     expired_at = now + second_for_one_week
-    redis_key = "auth:#{user.username}"
+    redis_key = build_token_key token
 
     # write to redis
     res = case RedisPool.pipeline([
-                ~w(HMSET #{redis_key} username #{username} userrole #{user_role} token #{token}),
+                ~w(HMSET #{redis_key} username #{username} userrole #{user_role}),
                 ~w(EXPIREAT #{redis_key} #{expired_at}),
                 ~w(HGETALL #{redis_key})
               ]) do
             {:ok, res} -> res
-            {:error, error} -> raise ApiServer.Services.Auth.Errors.LoginError
+            {:error, error} -> raise AuthErrors.LoginError
           end
+
     %{
       username: username,
       user_role: user_role,
@@ -103,5 +106,36 @@ defmodule ApiServer.Services.Auth do
       expired_at: expired_at * 1000
     }
   end
+
+
+  def ensure_logged_in_user(conn) do
+    token = Conn.get_req_header(conn, "dkcn-auth-token")
+    token_key = build_token_key token
+
+    # find token from redis
+    res = RedisPool.pipeline([
+      ~w(HGET #{token_key} username),
+      ~w(HGET #{token_key} userrole)
+    ])
+
+    res = case res do
+            {:ok, res} -> res
+            {:error, _} -> raise AuthErrors.UnauthorizedError
+          end
+    res = case res do
+            [nil, _] -> raise AuthErrors.UnauthorizedError
+            [_, nil] -> raise AuthErrors.UnauthorizedError
+            result -> result
+          end
+
+    [username, user_role] = res
+    %{
+      username: username,
+      user_role: user_role
+    }
+  end
+
+
+  defp build_token_key(token), do: "auth:#{token}"
 
 end
