@@ -1,6 +1,7 @@
 defmodule ApiServer.LogTrace do
   alias Plug.Conn
 
+  # plug
   def init(opts) do
     log_level = Keyword.get(opts, :log_level) || raise_missing_log_level()
   end
@@ -10,18 +11,21 @@ defmodule ApiServer.LogTrace do
     conn = Conn.assign conn, :log_trace, log_trace
 
     Conn.register_before_send(conn, fn conn ->
-      # IO.inspect conn.assigns
       conn
     end)
   end
 
-  def add(conn, level, title, content) do
-    %{log_trace: log_trace} = conn.assigns
-    log_trace = log_trace ++ [
+
+  def add(conn, level, title, content) when is_atom(level) do
+    messages = conn.assigns.log_trace.messages;
+    messages = messages ++ [
       %{level: level,
         title: title,
         content: content}
     ]
+    %{log_trace: log_trace} = conn.assigns
+    log_trace = %{log_trace | messages: messages}
+
     Conn.assign conn, :log_trace, log_trace
   end
 

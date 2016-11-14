@@ -1,10 +1,8 @@
 defmodule ApiServer.AuthController do
   use ApiServer.Web, :controller
-  alias ApiServer.Models.Auth.User, as: AuthUser
-  import ApiServer.EctoUtil, only: [errors_to_map: 1]
-  import ApiServer.Services.Auth, only: [create_both_user: 2]
-  alias ApiServer.Services.Auth, as: AuthService
 
+  alias ApiServer.Services.Auth, as: AuthService
+  import ApiServer.EctoUtil, only: [errors_to_map: 1]
 
   def get_user(conn, _params) do
     json conn, %{id_hello: "hello"}
@@ -18,7 +16,7 @@ defmodule ApiServer.AuthController do
     AuthService.ensure_admin_user(conn)
     params = Map.put params, "user_role", "user"
     try do
-      res = create_both_user conn, params
+      res = AuthService.create_both_user conn, params
       json(conn, res)
     catch
       changeset = %Ecto.Changeset{} -> conn
