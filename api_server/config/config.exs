@@ -7,7 +7,7 @@ use Mix.Config
 
 # General application configuration
 config :api_server,
-  ecto_repos: [ApiServer.Repo]
+  ecto_repos: [ApiServer.MainRepo]
 
 # Configures the endpoint
 config :api_server, ApiServer.Endpoint,
@@ -15,13 +15,45 @@ config :api_server, ApiServer.Endpoint,
   secret_key_base: "2jC+jfWjfSBCKN9i/RdSaHLV7sPSJAgmmuCBDXNPWydU2GTnsRwFuUrPhbftf2tX",
   render_errors: [view: ApiServer.ErrorView, accepts: ~w(html json)],
   pubsub: [name: ApiServer.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+           adapter: Phoenix.PubSub.PG2],
+  http: [port: 4000],
+  debug_errors: false,
+  check_origin: false,
+  watchers: [],
+
+  # code reloading
+  code_reloader: System.get_env("API_SERVER_CODE_RELOADER") == "true",
+  live_reload: [
+    patterns: [
+      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
+      ~r{priv/gettext/.*(po)$},
+      ~r{web/views/.*(ex)$},
+      ~r{web/templates/.*(eex)$}
+    ]
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
+# Configure your database
+config :api_server, ApiServer.MainRepo,
+  adapter: Ecto.Adapters.Postgres,
+  username: System.get_env("POSTGRES_MAIN_USER"),
+  database: System.get_env("POSTGRES_MAIN_DATABASE"),
+  hostname: System.get_env("POSTGRES_MAIN_SERVER"),
+  port: System.get_env("POSTGRES_MAIN_PORT"),
+  pool_size: 10
+
+config :api_server, ApiServer.AuthRepo,
+  adapter: Ecto.Adapters.Postgres,
+  username: System.get_env("POSTGRES_AUTH_USER"),
+  database: System.get_env("POSTGRES_AUTH_DATABASE"),
+  hostname: System.get_env("POSTGRES_AUTH_SERVER"),
+  port: System.get_env("POSTGRES_AUTH_PORT"),
+  pool_size: 10
+
+# Set a higher stacktrace during development. Avoid configuring such
+# in production as building large stacktraces may be expensive.
+config :phoenix, :stacktrace_depth, String.to_integer(System.get_env("API_SERVER_STACKTRACE_DEPTH"))

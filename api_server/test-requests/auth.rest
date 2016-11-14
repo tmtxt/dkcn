@@ -1,7 +1,7 @@
 # Create new auth user
 POST http://127.0.0.1:4000/api/auth-users
 Content-Type: application/json
-dkcn-auth-token: 65ed0f9c-022c-4c16-8c88-3fdc409512ae
+dkcn-auth-token: c5531766-dccf-4ab8-bd89-6337602ed2fa
 
 {
   "user_role": "admin",
