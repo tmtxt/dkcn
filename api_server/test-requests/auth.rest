@@ -1,7 +1,7 @@
 # Create new auth user
 POST http://127.0.0.1:4000/api/auth-users
 Content-Type: application/json
-dkcn-auth-token: 6ac999a3-f3af-41a8-bf25-6b610bd0b2e3
+dkcn-auth-token: 65ed0f9c-022c-4c16-8c88-3fdc409512ae
 
 {
   "user_role": "admin",
@@ -29,6 +29,6 @@ POST http://127.0.0.1:4000/api/login
 Content-Type: application/json
 
 {
-  "username": "test14",
-  "password": "hello"
+  "username": "admin",
+  "password": "admin"
 }

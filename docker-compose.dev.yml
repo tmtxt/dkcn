@@ -43,3 +43,5 @@ services:
     build: './api_server'
     ports: ['4000:4000']
     volumes: ['./api_server:/usr/src/app']
+    env_file:
+      - ./env/dev.env

@@ -35,14 +35,16 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :api_server, ApiServer.MainRepo,
   adapter: Ecto.Adapters.Postgres,
-  username: "app_main",
-  database: "app_main",
-  hostname: "postgres",
+  username: System.get_env("POSTGRES_MAIN_USER"),
+  database: System.get_env("POSTGRES_MAIN_DATABASE"),
+  hostname: System.get_env("POSTGRES_MAIN_SERVER"),
+  port: System.get_env("POSTGRES_MAIN_PORT"),
   pool_size: 10
 
 config :api_server, ApiServer.AuthRepo,
   adapter: Ecto.Adapters.Postgres,
-  username: "app_auth",
-  database: "app_auth",
-  hostname: "postgres",
+  username: System.get_env("POSTGRES_AUTH_USER"),
+  database: System.get_env("POSTGRES_AUTH_DATABASE"),
+  hostname: System.get_env("POSTGRES_AUTH_SERVER"),
+  port: System.get_env("POSTGRES_AUTH_PORT"),
   pool_size: 10
