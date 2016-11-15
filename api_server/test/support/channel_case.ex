@@ -20,7 +20,7 @@ defmodule ApiServer.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-      alias ApiServer.Repo
+      alias ApiServer.MainRepo
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
@@ -32,10 +32,10 @@ defmodule ApiServer.ChannelCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(ApiServer.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(ApiServer.MainRepo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(ApiServer.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(ApiServer.MainRepo, {:shared, self()})
     end
 
     :ok

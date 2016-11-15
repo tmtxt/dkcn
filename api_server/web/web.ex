@@ -65,7 +65,6 @@ defmodule ApiServer.Web do
     quote do
       use Phoenix.Channel
 
-      alias ApiServer.Repo
       import Ecto
       import Ecto.Query
       import ApiServer.Gettext

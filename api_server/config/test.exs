@@ -8,12 +8,3 @@ config :api_server, ApiServer.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
-
-# Configure your database
-config :api_server, ApiServer.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "api_server_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox

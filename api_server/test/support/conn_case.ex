@@ -20,7 +20,6 @@ defmodule ApiServer.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
 
-      alias ApiServer.Repo
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
@@ -33,11 +32,11 @@ defmodule ApiServer.ConnCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(ApiServer.Repo)
+    # :ok = Ecto.Adapters.SQL.Sandbox.checkout(ApiServer.MainRepo)
 
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(ApiServer.Repo, {:shared, self()})
-    end
+    # unless tags[:async] do
+    #   Ecto.Adapters.SQL.Sandbox.mode(ApiServer.MainRepo, {:shared, self()})
+    # end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
