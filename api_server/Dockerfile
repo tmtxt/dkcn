@@ -8,6 +8,8 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 RUN mix local.hex --force
 
+ENV API_SERVER_STACKTRACE_DEPTH 20
+
 COPY . /usr/src/app
 RUN mix deps.get
 
