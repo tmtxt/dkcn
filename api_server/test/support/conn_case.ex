@@ -24,6 +24,9 @@ defmodule ApiServer.ConnCase do
       import Ecto.Changeset
       import Ecto.Query
 
+      alias ApiServer.MainRepo
+      alias ApiServer.AuthRepo
+
       import ApiServer.Router.Helpers
 
       # The default endpoint for testing
@@ -31,13 +34,4 @@ defmodule ApiServer.ConnCase do
     end
   end
 
-  setup tags do
-    # :ok = Ecto.Adapters.SQL.Sandbox.checkout(ApiServer.MainRepo)
-
-    # unless tags[:async] do
-    #   Ecto.Adapters.SQL.Sandbox.mode(ApiServer.MainRepo, {:shared, self()})
-    # end
-
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
-  end
 end
