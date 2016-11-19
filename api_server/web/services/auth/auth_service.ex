@@ -75,6 +75,7 @@ defmodule ApiServer.Services.Auth do
   def login(conn, username, password) do
     # get user
     user = AuthUser |> AuthRepo.get_by(username: username)
+
     if !user do
       raise AuthErrors.LoginError
     end
